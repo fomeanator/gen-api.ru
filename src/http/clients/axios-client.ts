@@ -156,14 +156,7 @@ export class AxiosClient implements ClientInterface {
         config.data = httpBody;
       }
 
-      // Логируем детали запроса
-      console.log('=== GenAPI Request Details ===');
-      console.log('URL:', url);
-      console.log('Method:', method);
-      console.log('Headers:', JSON.stringify(preparedHeaders, null, 2));
-      console.log('Body:', httpBody);
-      console.log('===========================');
-
+    
       // Если нужна обработка SSE событий
       if (callback) {
         return this.handleStreamResponse(config, callback);
@@ -171,13 +164,7 @@ export class AxiosClient implements ClientInterface {
 
       const response = await this.axiosInstance.request(config);
 
-      // Логируем детали ответа
-      console.log('=== GenAPI Response Details ===');
-      console.log('Status:', response.status);
-      console.log('Headers:', JSON.stringify(response.headers, null, 2));
-      console.log('Body:', typeof response.data === 'string' ? response.data : JSON.stringify(response.data, null, 2));
-      console.log('=============================');
-
+     
       return new ResponseObject({
         code: response.status,
         headers: this.normalizeHeaders(response.headers),
@@ -185,16 +172,7 @@ export class AxiosClient implements ClientInterface {
       });
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
-        // Логируем детали ошибки
-        console.log('=== GenAPI Error Details ===');
-        console.log('Status:', error.response.status);
-        console.log('Headers:', JSON.stringify(error.response.headers, null, 2));
-        console.log('Body:', typeof error.response.data === 'string' ? error.response.data : JSON.stringify(error.response.data, null, 2));
-        console.log('Request URL:', error.config?.url);
-        console.log('Request Method:', error.config?.method?.toUpperCase());
-        console.log('Request Body:', error.config?.data);
-        console.log('===========================');
-
+       
         return new ResponseObject({
           code: error.response.status,
           headers: this.normalizeHeaders(error.response.headers),

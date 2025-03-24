@@ -35,10 +35,7 @@ export class Client extends BaseClient {
     networkId: string,
     parameters: Record<string, any>
   ): Promise<Record<string, any> | null> {
-    console.log('=== GenAPI Network Task ===');
-    console.log('Network ID:', networkId);
-    console.log('Parameters:', JSON.stringify(parameters, null, 2));
-    console.log('=========================');
+   
     
     const body = this.encodeData(parameters);
     const path = `${EndpointsEnum.CREATE_NETWORK_TASK_PATH}/${networkId}`;
@@ -48,14 +45,6 @@ export class Client extends BaseClient {
     if (response.isOk()) {
       return this.decodeData(response);
     } else {
-      console.log('=== GenAPI Network Task Error ===');
-      console.log('Status:', response.getCode());
-      console.log('Body:', response.getBody());
-      console.log('Network ID:', networkId);
-      console.log('Path:', path);
-      console.log('Encoded body:', body);
-      console.log('==============================');
-      
       this.handleError(response);
       return null;
     }
